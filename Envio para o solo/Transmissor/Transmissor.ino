@@ -3,15 +3,17 @@
 
 // Pinos CE e CSN
 RF24 radio(7, 8);
+boolean releaseParachute = false;
 
-const byte endereco[6] = "teste";
+const byte endereco[0][6] = {"1node", "2node"};
 
 void setup() {
   // Inicializa a comunicação com o modulo
   radio.begin();
 
   // Define o endereço do transmissor
-  radio.openWritingPipe(endereco);
+  radio.openWritingPipe(endereco[0]);
+  radio.openReadingPipe(1, endereco[1]);
 
   // Prepara para o modo de envio
   radio.stopListening();
@@ -38,4 +40,14 @@ float acelerometer() {
 
 void loop() {
   sendMessage(altitude(), temperature(), acelerometer());
+
+  radio.startListening();
+  if(radio.available()) {
+    radio.read(&releaseParachute, sizeof(boolean));
+
+    if(releaseParachute) {}
+  }
+  radio.stopListening();
+
+  delay(30);
 }

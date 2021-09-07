@@ -32,6 +32,6 @@ void loop() {
   radio.startListening();
 
   if(radio.available()) {
-    radio.read(&dadosRecebidos, sizeof(int))  
+    radio.read(&dadosRecebidos, sizeof(int));
   }
 }

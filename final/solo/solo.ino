@@ -1,7 +1,7 @@
 #include <SPI.h>
 #include <RF24.h>
 
-#define PARAQUEDAS 2
+#define BOTAO_PARAQUEDAS 2
 
 // Pinos CE e CSN
 RF24 radio(7, 8);
@@ -12,7 +12,7 @@ const byte endereco[][6] = {"1node", "2node"};
 void setup() {
   // Inicia a comunicação serial
   Serial.begin(9600);
-  pinMode(PARAQUEDAS, INPUT_PULLUP);
+  pinMode(BOTAO_PARAQUEDAS, INPUT_PULLUP);
 
   // Inicia a comunicação com o modulo
   radio.begin();
@@ -28,7 +28,7 @@ void setup() {
 
 void loop() {
   if(radio.available()) {
-    char recebido[50] = "";
+    char recebido[50];
 
     // Se recebeu algum pacote, lê o conteudo na variável recebido
     radio.read(&recebido, sizeof(recebido));
@@ -37,7 +37,7 @@ void loop() {
     Serial.println(recebido);
   }
   // Se um botão foi apertado
-  int paraquedasValue = digitalRead(PARAQUEDAS);
+  int paraquedasValue = digitalRead(BOTAO_PARAQUEDAS);
   if(paraquedasValue == LOW) {
     
     releaseParachute = true;

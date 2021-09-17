@@ -4,13 +4,12 @@
 
 // LEDs para teste
 #define LED0 4
-#define LED1 2
 
 File myFile;
 
 // Pinos CE e CSN
 RF24 radio(7, 8);
-char releaseParachute[1] = "0";
+bool releaseParachute;
 
 const byte endereco[][6] = {"1node", "2node"};
 
@@ -18,9 +17,7 @@ void setup() {
   Serial.begin(9600);
 
   pinMode(LED0, OUTPUT);
-  pinMode(LED1, OUTPUT);
   digitalWrite(LED0, LOW);
-  digitalWrite(LED1, LOW);
 
   Serial.print("Initializing SD card...");
   while(!SD.begin(4)) {
@@ -92,31 +89,24 @@ void writeOnSD(float time, float altitude, float temperature, float acelerometer
 }
 
 void loop() {
-  // float data[4];
-  // data[0] = millis() / 1000.0;
-  // data[1] = altitude();
-  // data[2] = temperature();
-  // data[3] = acelerometer();
+  float data[4];
+  data[0] = millis() / 1000.0;
+  data[1] = altitude();
+  data[2] = temperature();
+  data[3] = acelerometer();
   
-  // sendMessage(data[0], data[1], data[2], data[3]);
+  sendMessage(data[0], data[1], data[2], data[3]);
 
   radio.startListening();
   if(radio.available()) {
-    radio.read(&releaseParachute, sizeof(boolean));
+    radio.read(&releaseParachute, sizeof(releaseParachute));
 
-    if (releaseParachute[0] == '0'){
+    if(releaseParachute){
       Serial.println("Ligando Led 0!");
       digitalWrite(LED0, HIGH);
-      digitalWrite(LED1, LOW);
-    } else if(releaseParachute[0] == '1') {
-      Serial.println("Ligando Led 1!");
-      digitalWrite(LED1, HIGH);
-      digitalWrite(LED0, LOW);
     }
   }
-  // '0' - ligar led0
-  // '1' - ligar led1
   radio.stopListening();
 
-  // writeOnSD(data[0], data[1], data[2], data[3]);
+  writeOnSD(data[0], data[1], data[2], data[3]);
 }

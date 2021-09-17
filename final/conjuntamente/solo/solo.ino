@@ -1,9 +1,11 @@
 #include <SPI.h>
 #include <RF24.h>
 
+#define PARACHUTE_TIME 20000
+
 // Pinos CE e CSN
 RF24 radio(7, 8);
-char releaseParachute[1] = "0";
+bool releaseParachute = false;
 
 const byte endereco[][6] = {"1node", "2node"};
 
@@ -24,21 +26,20 @@ void setup() {
 }
 
 void loop() {
-  // if(radio.available()) {
-  //   char recebido[50];
+  if(radio.available()) {
+    char recebido[50];
 
-  //   // Se recebeu algum pacote, lê o conteudo na variável recebido
-  //   radio.read(&recebido, sizeof(recebido));
+    // Se recebeu algum pacote, lê o conteudo na variável recebido
+    radio.read(&recebido, sizeof(recebido));
+    // Imprime o que foi recebido
+    Serial.println(recebido);
+  }
 
-  //   // Imprime o que foi recebido
-  //   Serial.println(recebido);
-  // }
-  // // Se um botão foi apertado
-  
+  if(millis() > PARACHUTE_TIME) {
+    releaseParachute = true;
 
-  radio.stopListening();
-  radio.write(&releaseParachute, sizeof(releaseParachute));
-  radio.startListening();
-
-  delay(2000);
+    radio.stopListening();
+    radio.write(&releaseParachute, sizeof(releaseParachute));
+    radio.startListening();
+  }
 }

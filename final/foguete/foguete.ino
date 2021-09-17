@@ -4,6 +4,7 @@
 
 // LEDs para teste
 #define LED0 4
+#define LED1 2
 
 File myFile;
 
@@ -17,7 +18,9 @@ void setup() {
   Serial.begin(9600);
 
   pinMode(LED0, OUTPUT);
+  pinMode(LED1, OUTPUT);
   digitalWrite(LED0, LOW);
+  digitalWrite(LED1, LOW);
 
   Serial.print("Initializing SD card...");
   while(!SD.begin(4)) {

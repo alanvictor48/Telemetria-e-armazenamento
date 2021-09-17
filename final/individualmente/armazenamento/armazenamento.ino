@@ -8,7 +8,7 @@
    ** MOSI - pin 11
    ** MISO - pin 12
    ** CLK - pin 13
-   ** CS - pin 4 (for MKRZero SD: SDCARD_SS_PIN)
+   ** CS - pin 10 (for MKRZero SD: SDCARD_SS_PIN)
 
   The model file wil be:
 
@@ -20,6 +20,8 @@
 #include <SPI.h>
 #include <SD.h>
 
+#define CS_PIN 10
+
 File myFile;
 
 void setup() {
@@ -29,7 +31,7 @@ void setup() {
   }
 
   Serial.print("Initializing SD card...");
-  if (!SD.begin(4)) {
+  if (!SD.begin(CS_PIN)) {
     Serial.println("Initialization failed!");
     while(1);
   }
@@ -50,17 +52,17 @@ void setup() {
   }
 }
 
-void writeOnSD(float time, float altitude, float temperature, float aceleracao, File file) {
+void writeOnSD(float time, float altitude, float temperature, float acelerometer) {
   char string[40];
-  file = SD.open("data.txt", FILE_WRITE);
+  myFile = SD.open("data.txt", FILE_WRITE);
   
-  if(file) {
+  if(myFile) {
     Serial.print("Writing...");
 
-    sprintf(string, "%.3f, %.3f, %.3f, %.3f\n", time, altitude, temperature, aceleracao);
+    sprintf(string, "%.3f, %.3f, %.3f, %.3f\n", time, altitude, temperature, acelerometer);
     
-    file.print(string);
-    file.close();
+    myFile.print(string);
+    myFile.close();
 
     Serial.println("Done.");
   } else {
@@ -69,7 +71,7 @@ void writeOnSD(float time, float altitude, float temperature, float aceleracao, 
 }
 
 float altitude() {
-  return 402.1;
+  return 42.1;
 }
 
 float temperature() {
@@ -81,6 +83,6 @@ float acelerometer() {
 }
 
 void loop() {
-  writeOnSD(millis() / 1000.0, altitude(), temperature(), acelerometer(), myFile);
+  writeOnSD(millis() / 1000.0, altitude(), temperature(), acelerometer());
   delay(1000);
 }

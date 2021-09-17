@@ -4,7 +4,8 @@
 // Pinos CE e CSN
 RF24 radio(7, 8);
 char releaseParachute[1] = "0";
-int count=0;
+
+uint8_t count = 0;
 
 const byte endereco[][6] = {"1node", "2node"};
 
@@ -20,35 +21,22 @@ void setup() {
   radio.openWritingPipe(endereco[1]);
   radio.openReadingPipe(1, endereco[0]);
 
-  // Entra no modo de recebimento
-  radio.startListening();
+  // Entra no modo de envio
+  radio.stopListening();
 }
 
 void loop() {
-  // if(radio.available()) {
-  //   char recebido[50];
 
-  //   // Se recebeu algum pacote, lê o conteudo na variável recebido
-  //   radio.read(&recebido, sizeof(recebido));
-
-  //   // Imprime o que foi recebido
-  //   Serial.println(recebido);
-  // }
-  // // Se um botão foi apertado
   switch(count){
     case 0:
-      releaseParachute[0] = "0";
-      count++;
+      releaseParachute[0] = '0';
+      break;
     case 1:
       releaseParachute[0] = "1";
-      count++;
-    case 2:
-      count
+      break;
   }
+  count = (count+1) % 2;
 
-  radio.stopListening();
   radio.write(&releaseParachute, sizeof(releaseParachute));
-  radio.startListening();
-
   delay(2000);
 }

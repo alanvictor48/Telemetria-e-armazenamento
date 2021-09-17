@@ -4,7 +4,6 @@
 // Pinos CE e CSN
 RF24 radio(7, 8);
 char releaseParachute[1] = "0";
-int count=0;
 
 const byte endereco[][6] = {"1node", "2node"};
 
@@ -35,16 +34,7 @@ void loop() {
   //   Serial.println(recebido);
   // }
   // // Se um botão foi apertado
-  switch(count){
-    case 0:
-      releaseParachute[0] = "0";
-      count++;
-    case 1:
-      releaseParachute[0] = "1";
-      count++;
-    case 2:
-      count
-  }
+  
 
   radio.stopListening();
   radio.write(&releaseParachute, sizeof(releaseParachute));

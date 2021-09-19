@@ -36,7 +36,12 @@ void loop() {
       break;
   }
   count = (count+1) % 2;
-
+  
+  // int transmitidoERecebido = radio.write(&releaseParachute, sizeof(releaseParachute));
+  // if(transmitidoERecebido) {
+  //   Serial.println(transmitidoERecebido);
+  // }
+  
   radio.write(&releaseParachute, sizeof(releaseParachute));
   delay(2000);
 }

@@ -3,7 +3,7 @@
 
 // Pinos CE e CSN
 RF24 radio(7, 8);
-char releaseParachute[1] = "0";
+char releaseParachute[2] = "0";
 
 uint8_t count = 0;
 
@@ -32,7 +32,7 @@ void loop() {
       releaseParachute[0] = '0';
       break;
     case 1:
-      releaseParachute[0] = "1";
+      releaseParachute[0] = '1';
       break;
   }
   count = (count+1) % 2;

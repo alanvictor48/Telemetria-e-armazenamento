@@ -40,6 +40,8 @@ void loop() {
   int transmitidoERecebido = radio.write(&releaseParachute, sizeof(releaseParachute));
   Serial.println(transmitidoERecebido);
   
+  // while(!radio.write(&releaseParachute, sizeof(releaseParachute)));
+  
   radio.write(&releaseParachute, sizeof(releaseParachute));
   delay(2000);
 }

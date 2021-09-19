@@ -8,7 +8,7 @@
 
 // Pinos CE e CSN
 RF24 radio(7, 8);
-char releaseParachute[1] = "0";
+char releaseParachute[2] = "0";
 
 const byte endereco[][6] = {"1node", "2node"};
 

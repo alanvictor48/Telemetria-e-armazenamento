@@ -40,3 +40,4 @@ void loop() {
   radio.write(&releaseParachute, sizeof(releaseParachute));
   delay(2000);
 }
+

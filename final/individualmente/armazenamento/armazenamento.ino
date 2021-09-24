@@ -1,19 +1,8 @@
 /*
-  SD card read/write
-
-  This example shows how to read and write data to and from an SD card file
-  The circuit:
-  SD card attached to SPI bus as follows:
-  
-   ** MOSI - pin 11
-   ** MISO - pin 12
-   ** CLK - pin 13
-   ** CS - pin 10 (for MKRZero SD: SDCARD_SS_PIN)
-
-  The model file wil be:
+  The model file will be:
 
   Time, Altitude, Temperature, Acelerometer
-  10, 10, 10, 10
+  42.1, 42.1, 42.1, 42.1
   
 */
 
@@ -26,9 +15,6 @@ File myFile;
 
 void setup() {
   Serial.begin(9600);
-  while (!Serial) {
-    ;
-  }
 
   Serial.print("Initializing SD card...");
   if (!SD.begin(CS_PIN)) {

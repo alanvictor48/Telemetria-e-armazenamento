@@ -3,7 +3,7 @@
 #include "nRF24L01.h"
 
 // Instância de radio definindo pinos CE (porta D7) e CSN (porta D8)
-RF24 radio(7, 8);
+RF24 radio(9, 10);
 // Definindo variável que vai definir a ação a ser executada
 char releaseParachute = '0';
 

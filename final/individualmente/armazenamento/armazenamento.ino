@@ -48,7 +48,7 @@ void writeOnSD(float time, float altitude, float temperature, float acelerometer
     Serial.print("Writing...");
 
     //sprintf(string, "%.3lu, %lu, %f, %f, %f\n", time, altitude, temperature, acelerometer, 4, 4/1.0);
-    str = String(time,3) + "," + String(altitude,3) + "," + String(temperature,3) + "," + String(acelerometer,3);
+    str = String(time,3) + "," + String(altitude,3) + "," + String(temperature,3) + "," + String(acelerometer,3) + "\n";
 
     Serial.println(str);
     myFile.print(str);
